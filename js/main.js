@@ -1,5 +1,13 @@
 $( document ).ready(function() {
 	$('.advanced').hide();
+	fabmoDashboard.getConfig(function(err, data) {
+      if(err) {
+        console.log(err);
+      } else {
+		  var xMax = data.machine.envelope.xmax.toString();
+		  $('#diameter').attr('data-parsley-max', xMax);
+	  }
+	});  
 });
 
 $('#diameter').on('keyup', function(){
@@ -23,7 +31,6 @@ $('.center-bit').on('click', function (){
       if(err) {
         console.log(err);
       } else {
-		  console.log("does this do anything?")
 		  var xMax = data.machine.envelope.xmax;
 		  var yMax = data.machine.envelope.ymax;
 		  var xCenter = xMax/2;
@@ -43,13 +50,37 @@ $('.exit-modal').on('click', function (){
 $('.basic-link').on('click', function (){
 	$('.basic').show();
 	$('.advanced').hide();
+	$('.lock').hide();
+	$('.unlock').hide();
+	$('.advanced').attr("disabled", "true");
+	$('.advanced + ul').hide();
+	$('.basic + ul').show();
 });
 $('.advanced-link').on('click', function (){
 	$('.basic').hide();
 	$('.advanced').show();
+	$('.lock').show();
+	$('.unlock').hide();
+	$('.advanced').attr("disabled", "true");
+	$('.parsley-required').hide();
+	$('.advanced + ul').show();
+	$('.basic + ul').hide();
+});
+
+$('.lock').on('click', function (){
+	$('.lock').hide();
+	$('.unlock').show();
+	$('.advanced').removeAttr('disabled');
+});
+
+$('.unlock').on('click', function (){
+	$('.lock').show();
+	$('.unlock').hide();
+	$('.advanced').attr("disabled", "true");
 });
 
 $('#submit').on('click', function (){
+	$('.basic-setting').parsley().on('form:submit', function() {
 	fabmoDashboard.getConfig(function(err, data) {
       if(err) {
       } else {
@@ -61,10 +92,11 @@ $('#submit').on('click', function (){
 		  var speed = parseFloat($('#feed-rate').val());
 		  var cutThrough = parseFloat($('#cut-through').val());
 		  var depth = parseFloat($('#depth').val());
+		  var bitDiameter = parseFloat($('#bit-diameter').val());
 		  console.log(depth);
 		  var depthTotal = depth + cutThrough;
 		  console.log(depthTotal);
-		  var maxPlunge = 0.25 * .75;
+		  var maxPlunge = bitDiameter * .75;
 		  var passes = Math.ceil(depthTotal/maxPlunge);
 		  console.log(passes);
 		  var plunge = 0-(depthTotal/passes);
@@ -86,8 +118,8 @@ $('#submit').on('click', function (){
                                 	name : diameter + '" Diameter Circle',
                                     description : diameter + '" diameter circle centered at ' + xCenter + ',' + yCenter + ' at a depth of ' + depth + '"' 
     	});
-		console.log("ishould have ran");
+		
 	  }
-
+});
 });
 });

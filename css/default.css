@@ -8,14 +8,18 @@ body {
 	color: #101010;
 }
 .image-container {
-	position: relative;
 	margin: 3em;
 	margin-right: 4em;
+}
+
+.image-wrapper {
+	position: relative;
 }
 .settings{
 	width: 87%;
 	margin-left: 6.5%;
 	margin-right: auto;
+	margin-bottom: 5em;
 	background-color: #ffffff;
 	padding: 1em;
 	border-radius: 5px;
@@ -24,22 +28,51 @@ body {
 }
 
 
+
 .depth-id{
 	position: absolute;
-    right: 4%;
-    bottom: 33%;
+    left: 103%;
+    bottom: 22%;
     z-index: 10;
-	font-family: 1.8em;
+	font-size: 1.3em;
 }
 
 .diameter-id{
 	position: absolute;
-    left: 15%;
-    bottom: 9%;
+    left: 5%;
+    bottom: -26%;
     z-index: 10;
-	font-family: 1.8em;
+	font-size: 1.3em;
 }
 
+@media only screen and (max-width:770px){
+	.depth-id{
+		position: absolute;
+		left: 101%;
+		bottom: 23%;
+		font-size: 1.2em;
+	}
+	.diameter-id{
+		position: absolute;
+		left: 5%;
+		bottom: -20%;
+		font-size: 1.2em;
+	}	
+}
+@media only screen and (max-width: 520px){
+	.depth-id{
+		position: absolute;
+		left: 103%;
+		bottom: 15%;
+		font-size: 1em;
+	}
+	.diameter-id{
+		position: absolute;
+		left: 5%;
+		bottom: -30%;
+		font-size: 1em;
+	}	
+}
 .center-bit{
 	background-color: #416cb5;
 	color: #eeeeee;
@@ -55,6 +88,19 @@ body {
  		 box-sizing: border-box;
 }
 
+#submit {
+	width: 33%;
+	max-width: 100px;
+	background-color: #32B433;
+	color: #eeeeee;
+	margin-bottom: 1em;
+	border: 1px solid #32B433;;
+	border-radius: 5px;
+	line-height: 2em;
+	-moz-box-sizing: border-box;
+ 		 box-sizing: border-box;
+}
+
 .content{
 	padding-top: 1em;
 	padding-left: 1em;
@@ -63,6 +109,8 @@ body {
 .content:children {
 	margin-bottom: 200px;
 }
+
+
 
 .modal {
 	background-color: #eeeeee;
@@ -106,13 +154,13 @@ body {
 	padding: 1em;
 }
 .exit-modal {
-	background-color: #416cb5;
+	background-color: #32B433;
 	color: #eeeeee;
 	width: 50%;
 	margin-top: 20%;
 	margin-left: 25%;
 	margin-right: auto;
-	border: 1px solid #416cb5;
+	border: 1px solid #32B433;
 	text-align: center;
 	margin-bottom: 1em;
 	border-radius: 5px;
@@ -122,5 +170,19 @@ body {
 }
 
 .advanced {
+	display: none;
+}
+
+.lock{
+	float:right;
+	width: 15px;
+	height: auto;
+	display: none;
+}
+
+.unlock{
+	float:right;
+	width: 15px;
+	height: auto;
 	display: none;
 }
