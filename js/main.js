@@ -99,19 +99,23 @@ $('#submit').on('click', function (){
 		  var maxPlunge = bitDiameter * .75;
 		  var passes = Math.ceil(depthTotal/maxPlunge);
 		  console.log(passes);
-		  var plunge = 0-(depthTotal/passes);
+		  var plunge = (0-(depthTotal/passes)).toFixed(5);
 		  var shopbotCode = ["'Simple Circle'", 
-		  "'Center: " + xCenter + "," + yCenter + " Diameter: " + diameter + "'",
+		  "'Center: " + xCenter + "," + yCenter + "  Diameter: " + diameter + "'",
+		  "'Bit Diameter: " + bitDiameter + "'",
+		  "'Safe Z'",
+		  "JZ, 1",
 		  "'Spindle On'",
 		  "SO, 1,1",
 		  "MS,"+speed,
 		  "pause 3",
 		  "CP,"+diameter+","+xCenter+","+yCenter+",T,,,,"+plunge+","+passes+",,,,,,",
-		  "SO, 1,0",
 		  "'Safe Z'",
-		  "MZ, 1",
+		  "JZ, 1",
+		  "'Spindle Off'",
+		  "SO, 1,0",
 		  "'Jog Home'",
-		  "M2, 0"
+		  "J2, 0,0"
 		  ];
 		 var code = shopbotCode.join('\n');
 		  fabmoDashboard.submitJob(code, {filename : 'example-circle.sbp',
