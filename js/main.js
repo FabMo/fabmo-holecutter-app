@@ -109,7 +109,7 @@ $('#submit').on('click', function (){
 		  "SO, 1,1",
 		  "MS,"+speed,
 		  "pause 3",
-		  "CP,"+diameter+","+xCenter+","+yCenter+",T,,,,"+plunge+","+passes+",,,,,,",
+		  "CP,"+diameter+","+xCenter+","+yCenter+",O,,,,"+plunge+","+passes+",,,,,,1",
 		  "'Safe Z'",
 		  "JZ, 1",
 		  "'Spindle Off'",
