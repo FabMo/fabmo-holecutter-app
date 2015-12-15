@@ -93,6 +93,7 @@ $('#submit').on('click', function (){
 		  var cutThrough = parseFloat($('#cut-through').val());
 		  var depth = parseFloat($('#depth').val());
 		  var bitDiameter = parseFloat($('#bit-diameter').val());
+		  var actualDiameter = (diameter - bitDiameter);
 		  console.log(depth);
 		  var depthTotal = depth + cutThrough;
 		  console.log(depthTotal);
@@ -101,7 +102,7 @@ $('#submit').on('click', function (){
 		  console.log(passes);
 		  var plunge = (0-(depthTotal/passes)).toFixed(5);
 		  var shopbotCode = ["'Simple Circle'", 
-		  "'Center: " + xCenter + "," + yCenter + "  Diameter: " + diameter + "'",
+		  "'Center: " + xCenter + "," + yCenter + "  Diameter: " + actualDiameter + "'",
 		  "'Bit Diameter: " + bitDiameter + "'",
 		  "'Safe Z'",
 		  "JZ, 1",
@@ -109,7 +110,7 @@ $('#submit').on('click', function (){
 		  "SO, 1,1",
 		  "MS,"+speed,
 		  "pause 3",
-		  "CP,"+diameter+","+xCenter+","+yCenter+",O,,,,"+plunge+","+passes+",,,,,,1",
+		  "CP,"+diameter+","+xCenter+","+yCenter+",T,,,,"+plunge+","+passes+",,,,,,1",
 		  "'Safe Z'",
 		  "JZ, 1",
 		  "'Spindle Off'",
