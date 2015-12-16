@@ -102,7 +102,7 @@ $('#submit').on('click', function (){
 		  console.log(passes);
 		  var plunge = (0-(depthTotal/passes)).toFixed(5);
 		  var shopbotCode = ["'Simple Circle'", 
-		  "'Center: " + xCenter + "," + yCenter + "  Diameter: " + actualDiameter + "'",
+		  "'Center: " + xCenter + "," + yCenter + "  Diameter: " + diameter + "'",
 		  "'Bit Diameter: " + bitDiameter + "'",
 		  "'Safe Z'",
 		  "JZ, 1",
@@ -110,7 +110,7 @@ $('#submit').on('click', function (){
 		  "SO, 1,1",
 		  "MS,"+speed,
 		  "pause 3",
-		  "CP,"+diameter+","+xCenter+","+yCenter+",T,,,,"+plunge+","+passes+",,,,,,1",
+		  "CP,"+actualDiameter+","+xCenter+","+yCenter+",T,,,,"+plunge+","+passes+",,,,,1",
 		  "'Safe Z'",
 		  "JZ, 1",
 		  "'Spindle Off'",
