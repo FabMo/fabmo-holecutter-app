@@ -91,7 +91,7 @@ $('#submit').on('click', function (){
 		  var diameter = parseFloat($('#diameter').val());
 		  var speed = parseFloat($('#feed-rate').val());
 		  var cutThrough = parseFloat($('#cut-through').val());
-		  var depth = parseFloat($('#depth').val());
+		  var depth = Math.abs(parseFloat($('#depth').val()));
 		  var bitDiameter = parseFloat($('#bit-diameter').val());
 		  var actualDiameter = (diameter - bitDiameter);
 		  console.log(depth);
