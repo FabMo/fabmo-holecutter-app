@@ -1,8 +1,8 @@
 {
   "name": "HoleCutter",
   "main": "./index.html",
-  "icon": "icon.png",
-  "icon_color": "black",
+  "icon": "hole-icon.png",
+  "icon_color": "white",
   "version": "0.0.1",
   "author": "Brendan Collins",
   "website": "http://www.shopbottools.com",
