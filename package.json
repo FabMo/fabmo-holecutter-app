@@ -1,10 +1,15 @@
 {
   "name": "HoleCutter",
+  "repository" : "https://github.com/FabMo/fabmo-holecutter-app.git",
   "main": "./index.html",
   "icon": "hole-icon.png",
   "icon_color": "white",
-  "version": "0.0.1",
+  "version": "1.0.1",
   "author": "Brendan Collins",
   "website": "http://www.shopbottools.com",
-  "description": "Cut Some Holes"
+  "description": "Cut holes of specified dimensions",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-zip": "^0.17.1"
+  }
 }
