@@ -79,9 +79,10 @@ $('.unlock').on('click', function() {
   $('.advanced').attr("disabled", "true");
 });
 
-$('#submit').on('click', function() {
-  $('.basic-setting').parsley().on('form:submit', function() {
+  $('.basic-setting').parsley().on('form:success', function() {
+    console.log("Got a form submit");
     fabmo.getConfig(function(err, data) {
+      console.log("Got config");
       if (err) {} else {
         var xMax = data.machine.envelope.xmax;
         var yMax = data.machine.envelope.ymax;
@@ -127,4 +128,8 @@ $('#submit').on('click', function() {
       }
     });
   });
+
+$('#submit').on('click', function(evt) {
+  evt.preventDefault();
+  $('.basic-setting').parsley().validate();
 });
