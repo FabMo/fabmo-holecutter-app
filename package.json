@@ -4,7 +4,7 @@
   "main": "./index.html",
   "icon": "hole-icon.png",
   "icon_color": "white",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Brendan Collins",
   "website": "http://www.shopbottools.com",
   "description": "Cut holes of specified dimensions",
