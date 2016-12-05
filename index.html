@@ -34,7 +34,7 @@
                     </ul>
               </div>
               <div class='content'>
-                <form class="pure-form pure-form-stacked basic-setting">
+                <div id="signupForm" class="pure-form pure-form-stacked basic-setting" data-parsley-validate>
                   <fieldset>
                     <div class="pure-control-group">
                       <label class='basic' for="diameter">Diameter (in)</label>
@@ -56,9 +56,9 @@
                       <label class='advanced' for="bit-diameter">Bit Diameter (in)</label>
                       <input class='advanced' id="bit-diameter" type="number" step="any" data-parsley-required="true"  placeholder="Bit Diameter" data-parsley-maxlength="5" data-parsley-min="0"	  value="0.25" disabled>
                     </div>
-                    <button  id="submit" type='submit'>Next</button>
+                    <button  id="submit" >Next</button>
                   </fieldset>
-                </form>
+                </div>
              
               </div>
            </div>

@@ -10,6 +10,9 @@ $(document).ready(function() {
   });
 });
 
+var $selector = $('#signupForm'),
+form = $selector.parsley();
+
 $('#diameter').on('keyup', function() {
   if ($('#diameter').val().length > 0) {
     $('.diameter-id').text($('#diameter').val() + '"')
@@ -79,7 +82,7 @@ $('.unlock').on('click', function() {
   $('.advanced').attr("disabled", "true");
 });
 
-  $('.basic-setting').parsley().on('form:success', function() {
+  form.subscribe('parsley:form:success', function (e) {
     console.log("Got a form submit");
     fabmo.getConfig(function(err, data) {
       console.log("Got config");
@@ -130,6 +133,7 @@ $('.unlock').on('click', function() {
   });
 
 $('#submit').on('click', function(evt) {
-  evt.preventDefault();
-  $('.basic-setting').parsley().validate();
+  form.validate();
+  $('')
+  
 });
