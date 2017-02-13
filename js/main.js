@@ -1,6 +1,27 @@
+var xMax = 6.0;
+var yMax = 8.0;
+var xCenter = xMax / 2;
+var yCenter = yMax / 2;
+
+function getConfig(callback) {
+  if(fabmo.isPresent()) {
+    return fabmo.getConfig(callback);
+  }
+  callback(null, {
+    machine : {
+      envelope : {
+        xmin : 0,
+        xmax : 6,
+        ymin : 0,
+        ymax : 8
+      }
+    }
+  });
+};
+
 $(document).ready(function() {
   $('.advanced').hide();
-  fabmo.getConfig(function(err, data) {
+  getConfig(function(err, data) {
     if (err) {
       console.log(err);
     } else {
@@ -30,14 +51,14 @@ $('#depth').on('keyup', function() {
 });
 
 $('.center-bit').on('click', function() {
-  fabmo.getConfig(function(err, data) {
+  getConfig(function(err, data) {
     if (err) {
       console.log(err);
     } else {
-      var xMax = data.machine.envelope.xmax;
-      var yMax = data.machine.envelope.ymax;
-      var xCenter = xMax / 2;
-      var yCenter = yMax / 2;
+      xMax = data.machine.envelope.xmax;
+      yMax = data.machine.envelope.ymax;
+      xCenter = xMax / 2;
+      yCenter = yMax / 2;
       var gcode = "G0 X" + xCenter + " Y" + yCenter + " Z" + 1;
       fabmo.runGCode(gcode);
     }
@@ -82,58 +103,61 @@ $('.unlock').on('click', function() {
   $('.advanced').attr("disabled", "true");
 });
 
+function makeCircle(config) {
+  config = config || {};
+  var xMax = config.machine.envelope.xmax || 6.0;
+  var yMax = config.machine.envelope.ymax || 8.0;
+  var xCenter = xMax / 2;
+  var yCenter = yMax / 2;
+  var diameter = parseFloat($('#diameter').val());
+  var speed = parseFloat($('#feed-rate').val());
+  var cutThrough = parseFloat($('#cut-through').val());
+  var depth = Math.abs(parseFloat($('#depth').val()));
+  var bitDiameter = parseFloat($('#bit-diameter').val());
+  var actualDiameter = (diameter - bitDiameter);
+  var depthTotal = depth + cutThrough;
+  var maxPlunge = bitDiameter * .75;
+  var passes = Math.ceil(depthTotal / maxPlunge);
+  var plunge = (0 - (depthTotal / passes)).toFixed(5);
+  var shopbotCode = ["'Simple Circle'",
+    "'Center: " + xCenter + "," + yCenter + "  Diameter: " + diameter + "'",
+    "'Bit Diameter: " + bitDiameter + "'",
+    "'Safe Z'",
+    "JZ, 1",
+    "'Spindle On'",
+    "SO, 1,1",
+    "MS," + speed,
+    "pause 3",
+    "CP," + actualDiameter + "," + xCenter + "," + yCenter + ",T,,,," + plunge + "," + passes + ",,,,,1",
+    "'Safe Z'",
+    "JZ, 1",
+    "'Spindle Off'",
+    "SO, 1,0",
+    "'Jog Home'",
+    "J2, 0,0"
+  ];
+  var code = shopbotCode.join('\n');
+  fabmo.submitJob({
+    file: code,
+    filename: 'example-circle.sbp',
+    name: diameter + '" Diameter Circle',
+    description: diameter + '" diameter circle centered at ' + xCenter + ',' + yCenter + ' at a depth of ' + depth + '"'
+  });
+}
+
   form.subscribe('parsley:form:success', function (e) {
     console.log("Got a form submit");
-    fabmo.getConfig(function(err, data) {
-      console.log("Got config");
-      if (err) {} else {
-        var xMax = data.machine.envelope.xmax;
-        var yMax = data.machine.envelope.ymax;
-        var xCenter = xMax / 2;
-        var yCenter = yMax / 2;
-        var diameter = parseFloat($('#diameter').val());
-        var speed = parseFloat($('#feed-rate').val());
-        var cutThrough = parseFloat($('#cut-through').val());
-        var depth = Math.abs(parseFloat($('#depth').val()));
-        var bitDiameter = parseFloat($('#bit-diameter').val());
-        var actualDiameter = (diameter - bitDiameter);
-        console.log(depth);
-        var depthTotal = depth + cutThrough;
-        console.log(depthTotal);
-        var maxPlunge = bitDiameter * .75;
-        var passes = Math.ceil(depthTotal / maxPlunge);
-        console.log(passes);
-        var plunge = (0 - (depthTotal / passes)).toFixed(5);
-        var shopbotCode = ["'Simple Circle'",
-          "'Center: " + xCenter + "," + yCenter + "  Diameter: " + diameter + "'",
-          "'Bit Diameter: " + bitDiameter + "'",
-          "'Safe Z'",
-          "JZ, 1",
-          "'Spindle On'",
-          "SO, 1,1",
-          "MS," + speed,
-          "pause 3",
-          "CP," + actualDiameter + "," + xCenter + "," + yCenter + ",T,,,," + plunge + "," + passes + ",,,,,1",
-          "'Safe Z'",
-          "JZ, 1",
-          "'Spindle Off'",
-          "SO, 1,0",
-          "'Jog Home'",
-          "J2, 0,0"
-        ];
-        var code = shopbotCode.join('\n');
-        fabmo.submitJob({
-          file: code,
-          filename: 'example-circle.sbp',
-          name: diameter + '" Diameter Circle',
-          description: diameter + '" diameter circle centered at ' + xCenter + ',' + yCenter + ' at a depth of ' + depth + '"'
-        });
+    getConfig(function(err, data) {
+      if(err) {
+        console.error(err);
+        return;
       }
+      makeCircle(data);
     });
-  });
+});
 
 $('#submit').on('click', function(evt) {
   form.validate();
   $('')
-  
+
 });
