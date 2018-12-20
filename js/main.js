@@ -115,6 +115,7 @@ function makeCircle(config) {
   var depth = Math.abs(parseFloat($('#depth').val()));
   var bitDiameter = parseFloat($('#bit-diameter').val());
   var actualDiameter = (diameter - bitDiameter);
+  if (actualDiameter==0) actualDiameter = 0.001;
   var depthTotal = depth + cutThrough;
   var maxPlunge = bitDiameter * .75;
   var passes = Math.ceil(depthTotal / maxPlunge);
@@ -137,6 +138,11 @@ function makeCircle(config) {
     "J2, 0,0"
   ];
   var code = shopbotCode.join('\n');
+  if (actualDiameter<=0){
+    $("#err-msg").text("Can not cut a "+diameter+" inch hole with a "+bitDiameter+" inch bit.");
+    return; 
+  }
+  $("#err-msg").text("");
   fabmo.submitJob({
     file: code,
     filename: 'example-circle.sbp',
