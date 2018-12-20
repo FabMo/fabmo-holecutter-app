@@ -3,6 +3,16 @@ var yMax = 8.0;
 var xCenter = xMax / 2;
 var yCenter = yMax / 2;
 
+var machineX = 0.0;
+var machineY = 0.0;
+var machineX = 0.0;
+
+fabmo.on('status', function(status) {
+  machineX = status.posx;
+  machineY = status.posy;
+  machineZ = status.posz;
+});
+
 function getConfig(callback) {
   if(fabmo.isPresent()) {
     return fabmo.getConfig(callback);
@@ -29,6 +39,7 @@ $(document).ready(function() {
       $('#diameter').attr('data-parsley-max', xMax);
     }
   });
+  fabmo.requestStatus();
 });
 
 var $selector = $('#signupForm'),
@@ -120,6 +131,12 @@ function makeCircle(config) {
   var maxPlunge = bitDiameter * .75;
   var passes = Math.ceil(depthTotal / maxPlunge);
   var plunge = (0 - (depthTotal / passes)).toFixed(5);
+  var useCurrentXY = $('#use-current-XY').is(":checked");
+  if (useCurrentXY){
+    xCenter = machineX;
+    yCenter = machineY;
+  }
+    
   var shopbotCode = ["'Simple Circle'",
     "'Center: " + xCenter + "," + yCenter + "  Diameter: " + diameter + "'",
     "'Bit Diameter: " + bitDiameter + "'",
@@ -134,8 +151,8 @@ function makeCircle(config) {
     "JZ, 1",
     "'Spindle Off'",
     "SO, 1,0",
-    "'Jog Home'",
-    "J2, 0,0"
+    useCurrentXY?"":"'Jog Home'",
+    useCurrentXY?"":"J2, 0,0"
   ];
   var code = shopbotCode.join('\n');
   if (actualDiameter<=0){
